@@ -1,0 +1,20 @@
+{varType array $headerActions}
+{varType bool $export}
+{foreach $headerActions as $action}
+    {varType Ages\Grid\HeaderAction $action}
+    {var $params = []}
+    {foreach $action->getLinkParams() as $param}
+        {varType Ages\Grid\Column\LinkParam $param}
+        {var $params[$param->key] = $param->value}
+    {/foreach}
+    <a href="{plink $action->getLink(),(expand) $params}" n:class="!$action->isAjax() ? noAjax, 'inline-flex items-center px-3 py-1 no-underline hover:underline text-txt-blue hover:text-txt-red'"
+        {if !$action->isHistory()}data-naja-history="off"{/if}>
+            {include 'actionIcon.latte', type => $action->getType()}
+        {if $action->getTitle() !== null} {$action->getTitle()}{/if}
+    </a>
+{/foreach}
+{if $export === true}
+    <a href="{link export!}" class="inline-flex items-center px-2 py-1 no-underline hover:underline text-txt-blue hover:text-txt-red noAjax" data-naja-history="off">
+        {include 'actionIcon.latte', type => Ages\Grid\ActionType::Export} Export
+    </a>
+{/if}

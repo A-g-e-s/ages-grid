@@ -1,0 +1,12 @@
+{varType Ages\Grid\Column\ColumnImage $column}
+{varType Nextras\Orm\Entity\IEntity $line}
+{if strlen($column->getColumnValue($line)) > 4}
+    {switch $column->getType()}
+        {case Ages\Grid\Column\ImageType::Small}
+            <img src="{$basePath}/{$column->getColumnValue($line)}" alt="{$column->getName()}" class="object-scale-down h-8 w-20" />
+        {case Ages\Grid\Column\ImageType::Middle}
+            <img src="{$basePath}/{$column->getColumnValue($line)}" alt="{$column->getName()}" class="object-scale-down h-12 w-28" />
+        {case Ages\Grid\Column\ImageType::Large}
+            <img src="{$basePath}/{$column->getColumnValue($line)}" alt="{$column->getName()}" class="object-scale-down h-16 w-32" />
+    {/switch}
+{/if}

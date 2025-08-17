@@ -1,0 +1,17 @@
+{templateType Ages\Grid\GridTemplate}
+{foreach $collection as $column}
+    {varType Ages\Grid\Column\Column $column}
+    <th n:class="$column->getWidth(), 'px-2 py-2 border-b-2 border-neutral-300', $column->getAlign()">
+        {if $column->isFilterable()}
+            {if $column instanceof Ages\Grid\Column\ColumnEnum}
+                {input $column->getAlphaNumericName() class => 'font-normal w-full shadow border rounded-md border-neutral-300 focus:outline-none focus:shadow-outline focus:ring-2 py-1 px-3 mb-2  ring-txt-orange'}
+            {else}
+                <input n:name="$column->getAlphaNumericName()" autocomplete="off"
+                 n:class="$column->getAlign(), 'font-normal w-full shadow border rounded-md border-neutral-300 focus:outline-none focus:shadow-outline focus:ring-2 py-1 px-3 mb-2  ring-txt-orange'"/>
+            {/if}
+        {/if}
+    </th>
+{/foreach}
+{if $actionColumn}
+    <th class="px-2 py-2 border-b-2 text-right border-neutral-300"></th>
+{/if}

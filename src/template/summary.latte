@@ -1,0 +1,10 @@
+{templateType Ages\Grid\GridTemplate}
+{foreach $collection as $column}
+    {varType Ages\Grid\Column\Column $column}
+    <td n:class="'px-2 py-2 border-t-2 text-left border-neutral-300', $column->getAlign(), $column->getClasses()">
+        {if ($column instanceof Ages\Grid\Column\ColumnNumber) && $column->hasSummary()}{$column->summary($data)}{/if}
+    </td>
+{/foreach}
+{if $actionColumn}
+    <td class="px-2 py-2 border-t-2 text-left border-neutral-300"></td>
+{/if}

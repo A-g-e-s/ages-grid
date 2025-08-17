@@ -1,0 +1,15 @@
+{templateType Ages\Grid\GridTemplate}
+{varType bool $showFilter}
+{foreach $collection as $column}
+    {varType Ages\Grid\Column\Column $column}
+    <th n:class="$showFilter ? 'border-b' : 'border-b-2','p-2 pb-1 font-semibold border-neutral-300', $column->getWidth() ? 'fit-to-content',$column->getAlign()">
+        {if $column->isSortable()}
+            <a n:href="sort!, $column->getName()" data-naja-history="off" class="no-underline hover:underline text-txt-blue hover:text-txt-red">{$column->getLabel()}</a>
+        {else}
+            {$column->getLabel()}
+        {/if}
+    </th>
+{/foreach}
+{if $actionColumn}
+    <th n:class="$showFilter ? 'border-b' : 'border-b-2','p-2 pb-1 text-right font-semibold border-neutral-300'">Akce</th>
+{/if}

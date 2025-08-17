@@ -1,0 +1,75 @@
+{varType Ages\Grid\Column\Column $column}
+{varType Nextras\Orm\Entity\IEntity $line}
+{varType Ages\Grid\Action[] $actions}
+{foreach $actions as $action}
+    {first}
+        <div class="flex items-center justify-end gap-2">
+    {/first}
+    {if $action instanceof Ages\Grid\ActionCallback}
+        {var $par = $action->getLinkParams()[0]}
+        {varType Ages\Grid\Column\LinkParam $par}
+        {var $value = $column->getEntityProperty($line, $par->value)}
+
+        {if $action->getType() === Ages\Grid\ActionType::Delete}
+            <div x-data="{ initial: true, deleting: false }" class="flex items-center float-right">
+                <button x-on:click.prevent="deleting = true; initial = false" x-show="initial" x-on:deleting.window="$el.disabled = true" x-transition:enter="transition ease-out duration-150" x-transition:enter-start="opacity-0 transform scale-90"
+                        x-transition:enter-end="opacity-100 transform scale-100" class="p-1 hover:text-txt-orange hover:underline" type="button">
+                    {include 'actionIcon.latte', type => $action->getType()}
+                </button>
+                <div x-show="deleting" x-transition:enter="transition ease-out duration-150" x-transition:enter-start="opacity-0 transform scale-90" x-transition:enter-end="opacity-100 transform scale-100"
+                     x-transition:leave="transition ease-in duration-150"
+                     x-transition:leave-start="opacity-100 transform scale-100" x-transition:leave-end="opacity-0 transform scale-90" class="flex items-center space-x-3 p-1">
+                    <a href="{link 'actionCallback!', $action->getLink(), $value}"
+                       x-on:deleting.window="$el.disabled = true" n:class="!$action->isAjax() ? noAjax, ' text-txt-red hover:text-txt-orange'" {if !$action->isHistory()}data-naja-history="off"{/if}>
+                        {include 'actionIcon.latte', type => $action->getType()}
+                    </a>
+                    <button x-on:click.prevent="deleting = false; setTimeout(() => { initial = true }, 150)" x-on:deleting.window="$el.disabled = true" type="button"
+                            class="text-neutral-500 hover:text-neutral-800">{include 'actionIcon.latte', type => Ages\Grid\ActionType::Cancel}
+                    </button>
+                </div>
+            </div>
+        {else}
+            <a href="{link 'actionCallback!', $action->getLink(), $value}" class="inline-flex items-center p-1 rounded-xl no-underline hover:text-txt-orange hover:underline" data-naja-history="off">
+                {include 'actionIcon.latte', type => $action->getType()}
+            </a>
+        {/if}
+    {else}
+        {varType Ages\Grid\Action $action}
+        {var $params = []}
+        {foreach $action->getLinkParams() as $param}
+            {varType Ages\Grid\Column\LinkParam $param}
+            {if $param->data === true}
+                {var $value = $column->getEntityProperty($line, $param->value)}
+            {else}
+                {var $value = $param->value}
+            {/if}
+            {var $params[$param->key] = $value}
+        {/foreach}
+        {if $action->getType() === Ages\Grid\ActionType::Delete}
+            <div x-data="{ initial: true, deleting: false }" class="flex items-center float-right">
+                <button x-on:click.prevent="deleting = true; initial = false" x-show="initial" x-on:deleting.window="$el.disabled = true" x-transition:enter="transition ease-out duration-150" x-transition:enter-start="opacity-0 transform scale-90"
+                        x-transition:enter-end="opacity-100 transform scale-100" class="p-1 text-txt-blue hover:text-txt-orange" type="button">
+                    {include 'actionIcon.latte', type => $action->getType()}
+                </button>
+                <div x-show="deleting" x-transition:enter="transition ease-out duration-150" x-transition:enter-start="opacity-0 transform scale-90" x-transition:enter-end="opacity-100 transform scale-100"
+                     x-transition:leave="transition ease-in duration-150"
+                     x-transition:leave-start="opacity-100 transform scale-100" x-transition:leave-end="opacity-0 transform scale-90" class="flex items-center space-x-3 p-1">
+                    <a href="{plink $action->getLink() (expand) $params}"
+                       x-on:deleting.window="$el.disabled = true" n:class="!$action->isAjax() ? noAjax, ' text-txt-red hover:text-txt-orange'" {if !$action->isHistory()}data-naja-history="off"{/if}>
+                        {include 'actionIcon.latte', type => $action->getType()}
+                    </a>
+                    <button x-on:click.prevent="deleting = false; setTimeout(() => { initial = true }, 150)" x-on:deleting.window="$el.disabled = true" type="button"
+                            class="text-neutral-500 hover:text-neutral-800">{include 'actionIcon.latte', type => Ages\Grid\ActionType::Cancel}
+                    </button>
+                </div>
+            </div>
+        {else}
+            <a href="{plink $action->getLink() (expand) $params}" n:class="!$action->isAjax() ? noAjax, 'inline-flex items-center p-1 rounded-xl no-underline text-txt-blue hover:text-txt-orange'"
+                    {if !$action->isHistory()}data-naja-history="off"{/if}>
+                {include 'actionIcon.latte', type => $action->getType()}
+                {if $action->getTitle() !== null}{$action->getTitle()}{/if}
+            </a>
+        {/if}
+    {/if}
+    {last}</div>{/last}
+{/foreach}

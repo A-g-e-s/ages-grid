@@ -1,0 +1,71 @@
+{templateType Ages\Grid\GridTemplate}
+{if $exportMode}
+    <a href="{link export!}" class="inline-flex items-center px-2 py-1 rounded-xl no-underline text-sm text-txt-blue hover:text-txt-orange noAjax" data-naja-history="off">
+        {include 'actionIcon.latte', type => Ages\Grid\ActionType::Export} {$exportName}
+    </a>
+{else}
+    <section n:snippet="grid" class="text-neutral-800 overflow-x-auto">
+        {if $caption ||  count($headerActions) > 0 || $export === true}
+            <div class="mb-2 rounded-full text-lg flex items-center border-brand-orange border drop-shadow-md shadow-md">
+                {* Caption *}
+                {if $caption}
+                    <div class="rounded-l-full py-2 bg-brand-orange px-4 font-semibold">{$caption}:</div>
+                {/if}
+                {* HeaderActions *}
+                {if count($headerActions) > 0 || $export === true}
+                    {include headerAction.latte headerActions => $headerActions, export => $export}
+                {/if}
+            </div>
+        {/if}
+        <form n:name="filterForm" class="frm-grid">
+            <table class="mt-0 w-full border-collapse dataGrid table-auto">
+                <thead>
+                {* Head row *}
+                <tr n:snippet="head" class="sticky top-0 bg-bg-main">
+                    {include head.latte collection => $collection, actionColumn => $actionColumn, showFilter => $showFilter}
+                </tr>
+
+                {* Filter row *}
+                {if $showFilter}
+                    <tr n:snippet="filter">
+                        {include filter.latte collection => $collection, actionColumn => $actionColumn, showFilter => $showFilter}
+                    </tr>
+                {/if}
+                </thead>
+
+                {* Data rows *}
+                <tbody n:snippet="data">
+                {foreach $data as $line}
+                    {varType Nextras\Orm\Entity\Entity $line}
+                    <tr n:snippet="data-{$line->getPersistedId()}" n:class="$hoverable ?'hover:bg-indigo-50'">
+                        {foreach $collection as $column}
+                            {varType Ages\Grid\Column\Column $column}
+                            <td n:class="'px-2 py-2 border-b border-neutral-300', $column->getClasses()">
+                                {include sprintf('column/%s', $column->getTemplate()) column => $column, line => $line}
+                            </td>
+                            {last}
+                                {if $actionColumn}
+                                    <td class="px-2 py-2 border-b text-right border-neutral-300 whitespace-nowrap">{include action.latte actions => $actions, column => $column, line => $line}</td>
+                                {/if}
+                            {/last}
+                        {/foreach}
+                    </tr>
+                {/foreach}
+                </tbody>
+
+                {if $showFilter || $collection->showSummaryRow()}
+                    <tfoot>
+                    {* Summary row *}
+                    {if $collection->showSummaryRow()}
+                        <tr n:snippet="summary">
+                            {include summary.latte collection => $collection, actionColumn => $actionColumn}
+                        </tr>
+                    {/if}
+                    </tfoot>
+                {/if}
+            </table>
+            <input type="submit" n:name="filter" class="invisible" />
+        </form>
+        {control paginator}
+    </section>
+{/if}
