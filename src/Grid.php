@@ -39,7 +39,7 @@ use Nextras\Orm\Relationships\OneHasMany;
  */
 final class Grid extends UI\Control
 {
-    const string ExportName = 'Export';
+    const ExportName = 'Export';
     #[Persistent]
     public int $page = 1;
     #[Persistent]
@@ -103,12 +103,18 @@ final class Grid extends UI\Control
         $this->redrawControl('grid');
     }
 
-    public function handleExport(): void
+    public function handleExport(?string $basePath = null, ?string $exportPath = null): void
     {
-        $e = new Export($this->collection, $this->sortData(), $this->caption);
+        $e = new Export(
+                        $this->collection,
+                        $this->sortData(),
+                        $this->caption,
+            basePath:   $basePath,
+            exportPath: $exportPath
+        );
         $name = $e->exportData();
         $this->onExport($name);
-        $this->getPresenter()->sendResponse(new FileResponse(Export::ExportPath . $name));
+        $this->getPresenter()->sendResponse(new FileResponse($e->getExportPath() . $name));
     }
 
     /**

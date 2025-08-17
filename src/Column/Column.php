@@ -18,7 +18,7 @@ use UnitEnum;
 
 abstract class Column
 {
-    const string PropertySeparator = '->';
+    const PropertySeparator = '->';
     protected string $alphaNumericName;
     protected string $classes = '';
     protected bool $filterable = false;

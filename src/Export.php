@@ -11,7 +11,6 @@ use Ages\Grid\Column\ColumnBoolean;
 use Ages\Grid\Column\ColumnDate;
 use Ages\Grid\Column\ColumnImage;
 use Ages\Grid\Column\ColumnNumber;
-use App\Components\Storage\Storage;
 use DateTime;
 use Nette\Utils\Strings;
 use Nextras\Orm\Collection\ICollection;
@@ -29,17 +28,20 @@ use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
 
 class Export
 {
-    const string BasePath = __DIR__ . '/../../../www/';
-    const string ExportPath = self::BasePath . Storage::DirExport;
+
+    private string $basePath;
+    private string $exportPath;
 
     /**
-     * @param Collection<Column>  $columnCollection
+     * @param Collection<Column>   $columnCollection
      * @param ICollection<IEntity> $dataCollection
-     * @param string|null $caption
-     * @param int         $columnStart
-     * @param int         $lineStart
-     * @param string      $fontColor
-     * @param string      $borderColor
+     * @param string|null          $caption
+     * @param int                  $columnStart
+     * @param int                  $lineStart
+     * @param string               $fontColor
+     * @param string               $borderColor
+     * @param string|null          $basePath
+     * @param string|null          $exportPath
      */
     public function __construct(
         private readonly Collection $columnCollection,
@@ -48,13 +50,25 @@ class Export
         private readonly int $columnStart = 1,
         private readonly int $lineStart = 1,
         private readonly string $fontColor = '292b2f',
-        private readonly string $borderColor = '9ca3af'
+        private readonly string $borderColor = '9ca3af',
+        ?string $basePath = null,
+        ?string $exportPath = null
 
     ) {
+        $basePath ??= __DIR__ . '/../../../www/';
+        $this->setBasePath($basePath);
+
+        $exportPath ??= $this->basePath . 'export/';
+        $this->setExportPath($exportPath);
     }
 
     public function exportData(): string
     {
+        if (!is_dir($this->exportPath) && !@mkdir($this->exportPath, 0775, true) && !is_dir($this->exportPath)) {
+            throw new \RuntimeException(sprintf('Cannot create export directory: %s', $this->exportPath));
+        }
+
+
         $ss = new Spreadsheet();
         $date = (new \DateTimeImmutable())->format('d_m_Y__G_i_s');
         $title = $this->caption ?? 'Export';
@@ -73,8 +87,32 @@ class Export
         $this->setStyles($s, $lastCol, $lastLine);
         $writer = new Xlsx($ss);
         $name = sprintf('%s.xlsx', Strings::webalize($title));
-        $writer->save(self::ExportPath . $name);
+        $writer->save($this->exportPath . $name);
         return $name;
+    }
+
+    public function setExportPath(string $dir): void
+    {
+        $this->exportPath = rtrim($dir, DIRECTORY_SEPARATOR) . DIRECTORY_SEPARATOR;
+    }
+
+    private function setBasePath(string $dir): void
+    {
+        $this->basePath = rtrim($dir, DIRECTORY_SEPARATOR) . DIRECTORY_SEPARATOR;
+
+        if (!isset($this->exportPath)) {
+            return;
+        }
+
+        $suffix = 'export' . DIRECTORY_SEPARATOR;
+        if (str_ends_with($this->exportPath, $suffix)) {
+            $this->exportPath = $this->basePath . $suffix;
+        }
+    }
+
+    public function getExportPath(): string
+    {
+        return $this->exportPath;
     }
 
     private function setHeader(Worksheet $sheet): int
@@ -126,8 +164,8 @@ class Export
                         break;
                     case ($column instanceof ColumnImage):
                         if (is_string($column->getColumnRawValue($entity))) {
-                            $file = sprintf('%s%s', self::BasePath, $column->getColumnRawValue($entity));
-                            if (Storage::fileExist($file)) {
+                            $file = sprintf('%s%s', $this->basePath, $column->getColumnRawValue($entity));
+                            if (is_file($file)) {
                                 $sheet->getRowDimension($line)->setRowHeight(60);
                                 $drawing = new Drawing();
                                 $drawing->setPath($file);
