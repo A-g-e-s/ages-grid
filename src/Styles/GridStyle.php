@@ -236,7 +236,7 @@ class GridStyle implements GridStyleInterface
 
     public function paginatorSummaryContainer(): string
     {
-        return 'relative inline-flex items-center px-2 pr-4';
+        return 'relative inline-flex items-center px-2 pr-4 rounded-full bg-neutral-200';
     }
 
     public function paginatorSummaryIconContainer(): string
