@@ -1,6 +1,6 @@
 {templateType Ages\Grid\GridTemplate}
 {if $exportMode}
-    <a href="{link export!}" n:class="$gs->mainContainer() $gs->noAjax()" data-naja-history="off">
+    <a href="{link export!}" n:class="$gs->mainContainer(), $gs->noAjax()" data-naja-history="off">
         {include 'actionIcon.latte', type => Ages\Grid\ActionType::Export, gs => $gs} {$exportName}
     </a>
 {else}

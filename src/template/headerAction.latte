@@ -15,7 +15,7 @@
     </a>
 {/foreach}
 {if $export === true}
-    <a href="{link export!}" n:class="$gs->headerAction() $gs->noAjax()" data-naja-history="off">
+    <a href="{link export!}" n:class="$gs->headerAction(), $gs->noAjax()" data-naja-history="off">
         {include 'actionIcon.latte', type => Ages\Grid\ActionType::Export, gs => $gs} Export
     </a>
 {/if}
