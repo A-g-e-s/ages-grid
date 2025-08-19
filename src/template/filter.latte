@@ -4,9 +4,7 @@
     {varType Ages\Grid\Column\Column $column}
     <th n:class="$gs->filterColumn(), $column->getWidth(), $column->getAlign()">
         {if $column->isFilterable()}
-            {input $column->getAlphaNumericName()
-            class => $gs->filterInput()
-            autocomplete => 'off'}
+            {input $column->getAlphaNumericName(), class => $gs->filterInput(), autocomplete => 'off'}
         {/if}
     </th>
 {/foreach}
