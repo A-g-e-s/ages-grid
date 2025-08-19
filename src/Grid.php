@@ -93,9 +93,9 @@ final class Grid extends UI\Control
             /** @var ICollection<T> $rawData */
             $this->data = $rawData;
         }
-        $this->paginator = new Paginator();
-        $this->collection = new Collection();
         $this->gridStyle = $gridStyle ?? new GridStyle();
+        $this->paginator = new Paginator($this->gridStyle);
+        $this->collection = new Collection();
     }
 
     public function handleSort(string $column): void

@@ -8,7 +8,7 @@
         {varType Ages\Grid\Column\LinkParam $param}
         {var $params[$param->key] = $param->value}
     {/foreach}
-    <a href="{plink $action->getLink(),(expand) $params}" n:class="!$action->isAjax() : $gs->ajax()? $gs->noAjax(), $gs->headerAction()"
+    <a href="{plink $action->getLink(),(expand) $params}" n:class="$action->isAjax() ? $gs->ajax() : $gs->noAjax(), $gs->headerAction()"
             {if !$action->isHistory()}data-naja-history="off"{/if}>
         {include 'actionIcon.latte', type => $action->getType()}
         {if $action->getTitle() !== null} {$action->getTitle()}{/if}

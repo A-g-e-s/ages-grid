@@ -5,6 +5,7 @@ namespace Ages\Grid\Styles;
 interface GridStyleInterface
 {
     public function actionColumnName(): string;
+    public function paginatorSummaryText(): string;
     public function iconSize(): string;
     public function noAjax(): string;
 
@@ -73,5 +74,27 @@ interface GridStyleInterface
     public function imgBig(): string;
 
     public function fileAction(): string;
+
+    public function paginatorContainer(): string;
+
+    public function paginatorIconSize(): string;
+
+    public function paginatorPagesContainer(): string;
+
+    public function paginatorOptionsContainer(): string;
+
+    public function paginatorIconLink(): string;
+
+    public function paginatorLink(): string;
+
+    public function paginatorActual(): string;
+
+    public function paginatorText(): string;
+
+    public function paginatorSummaryContainer(): string;
+
+    public function paginatorSummaryIconContainer(): string;
+
+    public function paginatorSummary(): string;
 
 }

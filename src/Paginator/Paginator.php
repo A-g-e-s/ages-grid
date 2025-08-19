@@ -9,6 +9,7 @@ namespace Ages\Grid\Paginator;
 use Ages\Grid\Exception\InvalidArgument;
 use Ages\Grid\Exception\UnexpectedUse;
 use Ages\Grid\Grid;
+use Ages\Grid\Styles\GridStyleInterface;
 use Nette\Application\Attributes\Persistent;
 use Nette\Application\UI\Control;
 
@@ -25,7 +26,9 @@ class Paginator extends Control
     private array $itemsPerPageOption = [80, 160, 240];
     private bool $show = false;
 
-    public function __construct(private readonly \Nette\Utils\Paginator $paginator = new \Nette\Utils\Paginator())
+    public function __construct(
+        private readonly GridStyleInterface $gridStyle,
+        private readonly \Nette\Utils\Paginator $paginator = new \Nette\Utils\Paginator())
     {
         $this->paginator->setPage(1);
         if ($this->itemsPerPage === 0) {
@@ -149,6 +152,7 @@ class Paginator extends Control
         $this->template->paginator = $this;
         $this->template->itemsOptions = $this->itemsPerPageOption;
         $this->template->show = $this->show;
+        $this->template->gs = $this->gridStyle;
         $this->template->steps = $this->calculateSteps();
         $this->template->render();
     }

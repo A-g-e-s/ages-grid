@@ -9,9 +9,14 @@ class GridStyle implements GridStyleInterface
         return 'Akce';
     }
 
+    public function paginatorSummaryText(): string
+    {
+        return 'Celkem:';
+    }
+
     public function iconSize(): string
     {
-        return 'size-5';
+        return 'size-6';
     }
 
     public function ajax(): string
@@ -26,7 +31,7 @@ class GridStyle implements GridStyleInterface
 
     public function mainExportMode(): string
     {
-        return 'inline-flex items-center px-2 py-1 rounded-xl no-underline text-sm text-txt-blue hover:text-txt-orange';
+        return 'inline-flex items-center px-2 py-1 rounded-xl no-underline text-sm text-blue-800 hover:text-orange-500';
     }
 
     public function mainContainer(): string
@@ -36,22 +41,22 @@ class GridStyle implements GridStyleInterface
 
     public function captionContainer(): string
     {
-        return 'mb-2 rounded-full text-lg flex items-center border-brand-orange border drop-shadow-md shadow-md';
+        return 'mb-2 rounded-full text-lg flex items-center border-orange-500 border drop-shadow-md shadow-md';
     }
 
     public function caption(): string
     {
-        return 'rounded-l-full py-2 bg-brand-orange px-4 font-semibold';
+        return 'rounded-l-full py-2 bg-orange-500 px-4 font-semibold';
     }
 
     public function headerAction(): string
     {
-        return 'inline-flex items-center px-3 py-1 no-underline hover:underline text-txt-blue hover:text-txt-red';
+        return 'inline-flex items-center px-3 py-1 no-underline hover:underline text-sky-800 hover:text-rose-800';
     }
 
     public function table(): string
     {
-        return 'mt-0 w-full border-collapse dataGrid table-auto';
+        return 'mt-0 w-full border-collapse table-auto';
     }
 
     public function headRow(): string
@@ -71,7 +76,7 @@ class GridStyle implements GridStyleInterface
 
     public function headLink(): string
     {
-        return 'no-underline hover:underline text-txt-blue hover:text-txt-red';
+        return 'no-underline hover:underline text-sky-800 hover:text-rose-800';
     }
 
     public function filterRow(): string
@@ -86,12 +91,12 @@ class GridStyle implements GridStyleInterface
 
     public function filterInput(): string
     {
-        return 'font-normal w-full shadow border rounded-md border-neutral-300 focus:outline-none focus:shadow-outline focus:ring-2 py-1 px-3 mb-2  ring-txt-orange';
+        return 'font-normal w-full shadow border rounded-md border-neutral-300 focus:outline-none focus:shadow-outline focus:ring-2 py-1 px-3 mb-2  ring-orange-500';
     }
 
     public function bodyRow(): string
     {
-        return '';
+        return 'even:text-neutral-500';
     }
 
     public function bodyRowHover(): string
@@ -111,17 +116,17 @@ class GridStyle implements GridStyleInterface
 
     public function actionLink(): string
     {
-        return 'inline-flex items-center p-1 rounded-xl no-underline hover:text-txt-orange hover:underline';
+        return 'inline-flex items-center p-1 rounded-xl no-underline hover:text-orange-500 hover:underline';
     }
 
     public function actionDeleteContainer(): string
     {
-        return 'inline-flex items-center p-1 rounded-xl no-underline hover:text-txt-orange hover:underline';
+        return 'inline-flex items-center p-1 rounded-xl no-underline hover:text-orange-500 hover:underline';
     }
 
     public function actionDeleteButton(): string
     {
-        return 'p-1 hover:text-txt-orange hover:underline';
+        return 'p-1 text-red-500 hover:text-red-600 hover:underline';
     }
 
     public function deleteButtonsContainer(): string
@@ -131,7 +136,7 @@ class GridStyle implements GridStyleInterface
 
     public function deleteButton(): string
     {
-        return 'text-txt-red hover:text-txt-orange';
+        return 'text-red-500 hover:text-orange-500';
     }
 
     public function cancelButton(): string
@@ -151,22 +156,22 @@ class GridStyle implements GridStyleInterface
 
     public function columnLink(): string
     {
-        return 'no-underline text-txt-pink hover:underline';
+        return 'no-underline text-rose-400 hover:underline';
     }
 
     public function boolSuccess(): string
     {
-        return '';
+        return 'text-green-600';
     }
 
     public function boolDanger(): string
     {
-        return '';
+        return 'text-red-600';
     }
 
     public function boolNeutral(): string
     {
-        return '';
+        return 'text-neutral-600';
     }
 
     public function imgSmall(): string
@@ -186,6 +191,61 @@ class GridStyle implements GridStyleInterface
 
     public function fileAction(): string
     {
-        return 'inline-flex no-underline text-txt-pink hover:underline';
+        return 'inline-flex no-underline text-rose-400 hover:underline';
+    }
+
+    public function paginatorContainer(): string
+    {
+        return 'mt-2 text-neutral-900';
+    }
+
+    public function paginatorIconSize(): string
+    {
+        return 'size-6';
+    }
+
+    public function paginatorPagesContainer(): string
+    {
+        return 'relative z-0 inline-flex -space-x-px mb-2 rounded-full bg-neutral-200';
+    }
+
+    public function paginatorOptionsContainer(): string
+    {
+        return 'relative z-0 md:float-right -space-x-px inline-flex mb-2 rounded-full bg-neutral-200';
+    }
+
+    public function paginatorIconLink(): string
+    {
+        return 'relative inline-flex items-center px-2 py-2 outline-none hover:text-rose-800';
+    }
+
+    public function paginatorLink(): string
+    {
+        return 'px-4 py-2 no-underline outline-none hover:text-rose-800';
+    }
+
+    public function paginatorActual(): string
+    {
+        return 'px-4 py-2 text-blue-800 font-semibold';
+    }
+
+    public function paginatorText(): string
+    {
+        return 'px-4 py-2 text-blue-800 font-semibold';
+    }
+
+    public function paginatorSummaryContainer(): string
+    {
+        return 'relative inline-flex items-center px-2 pr-4';
+    }
+
+    public function paginatorSummaryIconContainer(): string
+    {
+        return 'relative inline-flex items-center px-2 py-2 md:ml-4 text-neutral-700';
+    }
+
+    public function paginatorSummary(): string
+    {
+        return 'font-semibold pr-2';
     }
 }

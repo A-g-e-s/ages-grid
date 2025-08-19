@@ -1,45 +1,44 @@
 {templateType Ages\Grid\Paginator\PaginatorTemplate}
 {if $show === true}
-    <div class="mt-2 text-neutral-900" n:snippet="paginator">
-        <div class="relative z-0 inline-flex -space-x-px mb-2">
-            <a href="{link paginate! ($paginator->getPage()-1)}" data-naja-history="off"
-               class="relative inline-flex items-center px-2 py-2 rounded-l-full outline-none bg-neutral-200 hover:text-txt-pink">
-                <svg class="size-6" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+    <div n:class="$gs->paginatorContainer()" n:snippet="paginator">
+        <div n:class="$gs->paginatorPagesContainer()">
+            <a href="{link paginate! ($paginator->getPage()-1)}" data-naja-history="off" n:class="$gs->paginatorIconLink()">
+                <svg n:class="$gs->paginatorIconSize()" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
                     <path fill-rule="evenodd" d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z" clip-rule="evenodd" />
                 </svg>
             </a>
             {foreach $steps as $step}
                 {if $paginator->getPage() === $step}
-                    <span class="relative inline-flex items-center px-4 py-2 bg-neutral-200 text-txt-blue font-semibold">{$step}</span>
+                    <span n:class="$gs->paginatorActual()">{$step}</span>
                 {else}
-                    <a href="{link paginate! $step}" data-naja-history="off"
-                       class="relative inline-flex items-center px-4 py-2 no-underline outline-none bg-neutral-200 hover:text-txt-pink">{$step}</a>
-
+                    <a href="{link paginate! $step}" data-naja-history="off" n:class="$gs->paginatorLink()">{$step}</a>
                 {/if}
-                {if $iterator->nextValue > $step + 1}<span class="relative inline-flex items-center px-2 py-2 bg-neutral-200">…</span>{/if}
+                {if $iterator->nextValue > $step + 1}<span n:class="$gs->paginatorText()">…</span>{/if}
             {/foreach}
-            <a href="{link paginate! ($paginator->getPage()+1)}" data-naja-history="off"
-               class="relative inline-flex items-center px-2 py-2 rounded-r-full outline-none bg-neutral-200 hover:text-txt-pink">
-                <svg class="size-6" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+            <a href="{link paginate! ($paginator->getPage()+1)}" data-naja-history="off" n:class="$gs->paginatorIconLink()">
+                <svg n:class="$gs->paginatorIconSize()" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
                     <path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd" />
                 </svg>
             </a>
         </div>
 
-        <div class="relative z-0 md:float-right -space-x-px inline-flex mb-2">
-        <span class="relative inline-flex items-center px-2 py-2 rounded-l-full md:ml-4 bg-neutral-200 text-neutral-700">
-            <svg class="size-6" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+        <div n:class="$gs->paginatorSummaryIconContainer()">
+        <span n:class="$gs->paginatorSummaryContainer()">
+            <svg n:class="$gs->paginatorIconSize()" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
                 <path stroke-linecap="round" stroke-linejoin="round" d="M8 7v8a2 2 0 002 2h6M8 7V5a2 2 0 012-2h4.586a1 1 0 01.707.293l4.414 4.414a1 1 0 01.293.707V15a2 2 0 01-2 2h-2M8 7H6a2 2 0 00-2 2v10a2 2 0 002 2h8a2 2 0 002-2v-2" />
             </svg>
         </span>
             {foreach $itemsOptions as $item}
                 {if $paginator->getItemsPerPage() === $item}
-                    <span class="relative inline-flex items-center px-4 py-2 no-underline outline-none bg-neutral-200 text-txt-blue font-semibold">{$item}</span>
+                    <span n:class="$gs->paginatorActual()">{$item}</span>
                 {else}
-                    <a href="{link items! $item}" data-naja-history="off" class="relative inline-flex items-center px-4 py-2 no-underline outline-none bg-neutral-200 hover:text-txt-pink">{$item}</a>
+                    <a href="{link items! $item}" data-naja-history="off" n:class="$gs->paginatorLink()">{$item}</a>
                 {/if}
             {/foreach}
-            <span class="relative inline-flex items-center px-2 pr-4 rounded-r-full bg-neutral-200"><span class="font-semibold pr-2">Celkem:</span>{$paginator->getItemCount()}</span>
+            <span n:class="$gs->paginatorSummaryContainer()">
+                <span n:class="$gs->paginatorSummary()">{$gs->paginatorSummaryText()}</span>
+                {$paginator->getItemCount()}
+            </span>
         </div>
     </div>
 {/if}

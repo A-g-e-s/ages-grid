@@ -5,6 +5,7 @@ declare(strict_types=1);
 
 namespace Ages\Grid\Paginator;
 
+use Ages\Grid\Styles\GridStyleInterface;
 use Nette\Bridges\ApplicationLatte\Template;
 
 class PaginatorTemplate extends Template
@@ -19,5 +20,7 @@ class PaginatorTemplate extends Template
      * @var int[]
      */
     public array $steps;
+
+    public GridStyleInterface $gs;
 
 }
