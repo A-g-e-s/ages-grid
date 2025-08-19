@@ -6,6 +6,6 @@ namespace Ages\Grid\Column;
 enum ImageType
 {
     case Small;
-    case Middle;
+    case Medium;
     case Large;
 }

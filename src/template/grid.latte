@@ -1,34 +1,34 @@
 {templateType Ages\Grid\GridTemplate}
 {if $exportMode}
-    <a href="{link export!}" class="inline-flex items-center px-2 py-1 rounded-xl no-underline text-sm text-txt-blue hover:text-txt-orange noAjax" data-naja-history="off">
-        {include 'actionIcon.latte', type => Ages\Grid\ActionType::Export} {$exportName}
+    <a href="{link export!}" n:class="$gs->mainContainer() $gs->noAjax()" data-naja-history="off">
+        {include 'actionIcon.latte', type => Ages\Grid\ActionType::Export, gs => $gs} {$exportName}
     </a>
 {else}
-    <section n:snippet="grid" class="text-neutral-800 overflow-x-auto">
+    <section n:snippet="grid" n:class="$gs->mainContainer()">
         {if $caption ||  count($headerActions) > 0 || $export === true}
-            <div class="mb-2 rounded-full text-lg flex items-center border-brand-orange border drop-shadow-md shadow-md">
+            <div n:class="$gs->captionContainer()">
                 {* Caption *}
                 {if $caption}
-                    <div class="rounded-l-full py-2 bg-brand-orange px-4 font-semibold">{$caption}:</div>
+                    <div n:class="$gs->caption()">{$caption}:</div>
                 {/if}
                 {* HeaderActions *}
                 {if count($headerActions) > 0 || $export === true}
-                    {include headerAction.latte headerActions => $headerActions, export => $export}
+                    {include headerAction.latte headerActions => $headerActions, export => $export, gs => $gs}
                 {/if}
             </div>
         {/if}
-        <form n:name="filterForm" class="frm-grid">
-            <table class="mt-0 w-full border-collapse dataGrid table-auto">
+        <form n:name="filterForm">
+            <table n:class="$gs->table()">
                 <thead>
                 {* Head row *}
-                <tr n:snippet="head" class="sticky top-0 bg-bg-main">
-                    {include head.latte collection => $collection, actionColumn => $actionColumn, showFilter => $showFilter}
+                <tr n:snippet="head" n:class="$gs->headRow()">
+                    {include head.latte collection => $collection, actionColumn => $actionColumn, showFilter => $showFilter, gs => $gs}
                 </tr>
 
                 {* Filter row *}
                 {if $showFilter}
-                    <tr n:snippet="filter">
-                        {include filter.latte collection => $collection, actionColumn => $actionColumn, showFilter => $showFilter}
+                    <tr n:snippet="filter" n:class="$gs->filterRow()">
+                        {include filter.latte collection => $collection, actionColumn => $actionColumn, showFilter => $showFilter, gs => $gs}
                     </tr>
                 {/if}
                 </thead>
@@ -37,15 +37,15 @@
                 <tbody n:snippet="data">
                 {foreach $data as $line}
                     {varType Nextras\Orm\Entity\Entity $line}
-                    <tr n:snippet="data-{$line->getPersistedId()}" n:class="$hoverable ?'hover:bg-indigo-50'">
+                    <tr n:snippet="data-{$line->getPersistedId()}" n:class="$gs->bodyRow(), $hoverable ? $gs->bodyRowHover()">
                         {foreach $collection as $column}
                             {varType Ages\Grid\Column\Column $column}
-                            <td n:class="'px-2 py-2 border-b border-neutral-300', $column->getClasses()">
-                                {include sprintf('column/%s', $column->getTemplate()) column => $column, line => $line}
+                            <td n:class="$gs->bodyColumn(), $column->getClasses()">
+                                {include sprintf('column/%s', $column->getTemplate()) column => $column, line => $line, gs => $gs}
                             </td>
                             {last}
                                 {if $actionColumn}
-                                    <td class="px-2 py-2 border-b text-right border-neutral-300 whitespace-nowrap">{include action.latte actions => $actions, column => $column, line => $line}</td>
+                                    <td n:class="$gs->bodyColumn()">{include action.latte actions => $actions, column => $column, line => $line, gs => $gs}</td>
                                 {/if}
                             {/last}
                         {/foreach}
@@ -57,14 +57,14 @@
                     <tfoot>
                     {* Summary row *}
                     {if $collection->showSummaryRow()}
-                        <tr n:snippet="summary">
-                            {include summary.latte collection => $collection, actionColumn => $actionColumn}
+                        <tr n:snippet="summary" n:class="$gs->summaryRow()">
+                            {include summary.latte collection => $collection, actionColumn => $actionColumn, gs => $gs}
                         </tr>
                     {/if}
                     </tfoot>
                 {/if}
             </table>
-            <input type="submit" n:name="filter" class="invisible" />
+            <input type="submit" n:name="filter" class="invisible"/>
         </form>
         {control paginator}
     </section>

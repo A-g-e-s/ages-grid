@@ -1,5 +1,6 @@
 {varType Ages\Grid\Column\Column $column}
 {varType Nextras\Orm\Entity\IEntity $line}
+{varType Ages\Grid\Styles\GridStyleInterface $gs}
 {if $column->isLink() && ($column->checkEmpty() === false || $column->getColumnValue($line) !== '')}
     {var $params = []}
     {foreach $column->getLinkParams() as $param}
@@ -11,7 +12,7 @@
         {/if}
         {var $params[$param->key] = $value}
     {/foreach}
-    <a href="{plink $column->getLink() (expand) $params}" n:class="!$column->ajax() ? noAjax, 'no-underline text-txt-pink hover:underline'"
+    <a href="{plink $column->getLink() (expand) $params}" n:class="$column->ajax() ? $gs->ajax() : $gs->noAjax(), $gs->columnLink()"
             {if !$column->history()} data-naja-history="off"{/if}>{$column->getColumnValue($line)}</a>
 {else}
     {$column->getColumnValue($line)}

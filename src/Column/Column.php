@@ -32,7 +32,7 @@ abstract class Column
     /** @var LinkParam[] */
     private array $linkParam = [];
     private string $template = 'default.latte';
-    private string $width = '';
+    private string $width = 'fit-to-content';
 
     private bool $manyToMany = false;
     private string|int $manyToManyValue = '';

@@ -1,41 +1,41 @@
 {varType Ages\Grid\Column\Column $column}
 {varType Nextras\Orm\Entity\IEntity $line}
 {varType Ages\Grid\Action[] $actions}
+{varType Ages\Grid\Styles\GridStyleInterface $gs}
 {foreach $actions as $action}
     {first}
-        <div class="flex items-center justify-end gap-2">
+        <div n:class="$gs->actionContainer()">
     {/first}
     {if $action instanceof Ages\Grid\ActionCallback}
         {var $par = $action->getLinkParams()[0]}
         {varType Ages\Grid\Column\LinkParam $par}
         {var $value = $column->getEntityProperty($line, $par->value)}
-
         {if $action->getType() === Ages\Grid\ActionType::Delete}
-            <div x-data="{ initial: true, deleting: false }" class="flex items-center float-right">
+            <div x-data="{ initial: true, deleting: false }" n:class="$gs->actionDeleteContainer()">
                 <button x-on:click.prevent="deleting = true; initial = false" x-show="initial" x-on:deleting.window="$el.disabled = true" x-transition:enter="transition ease-out duration-150" x-transition:enter-start="opacity-0 transform scale-90"
-                        x-transition:enter-end="opacity-100 transform scale-100" class="p-1 hover:text-txt-orange hover:underline" type="button">
-                    {include 'actionIcon.latte', type => $action->getType()}
+                        x-transition:enter-end="opacity-100 transform scale-100" n:class="$gs->actionDeleteButton()" type="button">
+                    {include 'actionIcon.latte', type => Ages\Grid\ActionType::Delete, gs => $gs}
                 </button>
                 <div x-show="deleting" x-transition:enter="transition ease-out duration-150" x-transition:enter-start="opacity-0 transform scale-90" x-transition:enter-end="opacity-100 transform scale-100"
                      x-transition:leave="transition ease-in duration-150"
-                     x-transition:leave-start="opacity-100 transform scale-100" x-transition:leave-end="opacity-0 transform scale-90" class="flex items-center space-x-3 p-1">
+                     x-transition:leave-start="opacity-100 transform scale-100" x-transition:leave-end="opacity-0 transform scale-90" n:class="$gs->deleteButtonsContainer()">
                     <a href="{link 'actionCallback!', $action->getLink(), $value}"
-                       x-on:deleting.window="$el.disabled = true" n:class="!$action->isAjax() ? noAjax, ' text-txt-red hover:text-txt-orange'" {if !$action->isHistory()}data-naja-history="off"{/if}>
-                        {include 'actionIcon.latte', type => $action->getType()}
+                       x-on:deleting.window="$el.disabled = true" n:class="$gs->deleteButton(), $action->isAjax() ? $gs->ajax() : $gs->noAjax()" {if !$action->isHistory()}data-naja-history="off"{/if}>
+                        {include 'actionIcon.latte', type => Ages\Grid\ActionType::Delete, gs => $gs}
                     </a>
-                    <button x-on:click.prevent="deleting = false; setTimeout(() => { initial = true }, 150)" x-on:deleting.window="$el.disabled = true" type="button"
-                            class="text-neutral-500 hover:text-neutral-800">{include 'actionIcon.latte', type => Ages\Grid\ActionType::Cancel}
+                    <button x-on:click.prevent="deleting = false; setTimeout(() => { initial = true }, 150)" x-on:deleting.window="$el.disabled = true" type="button" n:class="$gs->cancelButton()">
+                        {include 'actionIcon.latte', type => Ages\Grid\ActionType::Cancel, gs => $gs}
                     </button>
                 </div>
             </div>
         {else}
-            <a href="{link 'actionCallback!', $action->getLink(), $value}" class="inline-flex items-center p-1 rounded-xl no-underline hover:text-txt-orange hover:underline" data-naja-history="off">
-                {include 'actionIcon.latte', type => $action->getType()}
+            <a href="{link 'actionCallback!', $action->getLink(), $value}" n:class="$gs->actionLink(), $gs->ajax()" data-naja-history="off">
+                {include 'actionIcon.latte', type => $action->getType(), gs => $gs}
             </a>
         {/if}
     {else}
-        {varType Ages\Grid\Action $action}
-        {var $params = []}
+    {varType Ages\Grid\Action $action}
+    {var $params = []}
         {foreach $action->getLinkParams() as $param}
             {varType Ages\Grid\Column\LinkParam $param}
             {if $param->data === true}
@@ -46,28 +46,29 @@
             {var $params[$param->key] = $value}
         {/foreach}
         {if $action->getType() === Ages\Grid\ActionType::Delete}
-            <div x-data="{ initial: true, deleting: false }" class="flex items-center float-right">
+            <div x-data="{ initial: true, deleting: false }" n:class="$gs->actionDeleteContainer()">
                 <button x-on:click.prevent="deleting = true; initial = false" x-show="initial" x-on:deleting.window="$el.disabled = true" x-transition:enter="transition ease-out duration-150" x-transition:enter-start="opacity-0 transform scale-90"
-                        x-transition:enter-end="opacity-100 transform scale-100" class="p-1 text-txt-blue hover:text-txt-orange" type="button">
-                    {include 'actionIcon.latte', type => $action->getType()}
+                        x-transition:enter-end="opacity-100 transform scale-100" n:class="$gs->actionDeleteButton()" type="button">
+                    {include 'actionIcon.latte', type => Ages\Grid\ActionType::Delete, gs => $gs}
                 </button>
                 <div x-show="deleting" x-transition:enter="transition ease-out duration-150" x-transition:enter-start="opacity-0 transform scale-90" x-transition:enter-end="opacity-100 transform scale-100"
                      x-transition:leave="transition ease-in duration-150"
-                     x-transition:leave-start="opacity-100 transform scale-100" x-transition:leave-end="opacity-0 transform scale-90" class="flex items-center space-x-3 p-1">
+                     x-transition:leave-start="opacity-100 transform scale-100" x-transition:leave-end="opacity-0 transform scale-90" n:class="$gs->deleteButtonsContainer()">
                     <a href="{plink $action->getLink() (expand) $params}"
-                       x-on:deleting.window="$el.disabled = true" n:class="!$action->isAjax() ? noAjax, ' text-txt-red hover:text-txt-orange'" {if !$action->isHistory()}data-naja-history="off"{/if}>
-                        {include 'actionIcon.latte', type => $action->getType()}
+                       x-on:deleting.window="$el.disabled = true" n:class="$gs->deleteButton(), $action->isAjax() ? $gs->ajax() : $gs->noAjax()" {if !$action->isHistory()}data-naja-history="off"{/if}>
+                        {include 'actionIcon.latte', type => Ages\Grid\ActionType::Delete, gs => $gs}
                     </a>
-                    <button x-on:click.prevent="deleting = false; setTimeout(() => { initial = true }, 150)" x-on:deleting.window="$el.disabled = true" type="button"
-                            class="text-neutral-500 hover:text-neutral-800">{include 'actionIcon.latte', type => Ages\Grid\ActionType::Cancel}
+                    <button x-on:click.prevent="deleting = false; setTimeout(() => { initial = true }, 150)" x-on:deleting.window="$el.disabled = true" type="button" n:class="$gs->cancelButton()">
+                        {include 'actionIcon.latte', type => Ages\Grid\ActionType::Cancel, gs => $gs}
                     </button>
                 </div>
             </div>
         {else}
-            <a href="{plink $action->getLink() (expand) $params}" n:class="!$action->isAjax() ? noAjax, 'inline-flex items-center p-1 rounded-xl no-underline text-txt-blue hover:text-txt-orange'"
-                    {if !$action->isHistory()}data-naja-history="off"{/if}>
-                {include 'actionIcon.latte', type => $action->getType()}
-                {if $action->getTitle() !== null}{$action->getTitle()}{/if}
+            <a href="{plink $action->getLink() (expand) $params}" n:class="$gs->actionLink(), $action->isAjax() ? $gs->ajax() : $gs->noAjax()" {if !$action->isHistory()}data-naja-history="off"{/if}>
+                {include 'actionIcon.latte', type => $action->getType(), gs => $gs}
+                {if $action->getTitle() !== null}
+                    {$action->getTitle()}
+                {/if}
             </a>
         {/if}
     {/if}

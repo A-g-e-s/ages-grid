@@ -12,7 +12,7 @@ class ColumnImage extends Column
     public function __construct(
         string $name,
         ?string $label = null,
-        private readonly ImageType $type = ImageType::Middle
+        private readonly ImageType $type = ImageType::Medium
     ) {
         parent::__construct($name, $label);
         $this->setTemplate('image.latte');

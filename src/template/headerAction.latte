@@ -1,4 +1,5 @@
 {varType array $headerActions}
+{varType Ages\Grid\Styles\GridStyleInterface $gs}
 {varType bool $export}
 {foreach $headerActions as $action}
     {varType Ages\Grid\HeaderAction $action}
@@ -7,14 +8,14 @@
         {varType Ages\Grid\Column\LinkParam $param}
         {var $params[$param->key] = $param->value}
     {/foreach}
-    <a href="{plink $action->getLink(),(expand) $params}" n:class="!$action->isAjax() ? noAjax, 'inline-flex items-center px-3 py-1 no-underline hover:underline text-txt-blue hover:text-txt-red'"
-        {if !$action->isHistory()}data-naja-history="off"{/if}>
-            {include 'actionIcon.latte', type => $action->getType()}
+    <a href="{plink $action->getLink(),(expand) $params}" n:class="!$action->isAjax() : $gs->ajax()? $gs->noAjax(), $gs->headerAction()"
+            {if !$action->isHistory()}data-naja-history="off"{/if}>
+        {include 'actionIcon.latte', type => $action->getType()}
         {if $action->getTitle() !== null} {$action->getTitle()}{/if}
     </a>
 {/foreach}
 {if $export === true}
-    <a href="{link export!}" class="inline-flex items-center px-2 py-1 no-underline hover:underline text-txt-blue hover:text-txt-red noAjax" data-naja-history="off">
-        {include 'actionIcon.latte', type => Ages\Grid\ActionType::Export} Export
+    <a href="{link export!}" n:class="$gs->headerAction() $gs->noAjax()" data-naja-history="off">
+        {include 'actionIcon.latte', type => Ages\Grid\ActionType::Export, gs => $gs} Export
     </a>
 {/if}

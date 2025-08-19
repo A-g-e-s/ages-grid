@@ -21,6 +21,8 @@ use Ages\Grid\Column\DateType;
 use Ages\Grid\Column\ImageType;
 use Ages\Grid\Exception\InvalidArgument;
 use Ages\Grid\Paginator\Paginator;
+use Ages\Grid\Styles\GridStyle;
+use Ages\Grid\Styles\GridStyleInterface;
 use Nette\Application\Attributes\Persistent;
 use Nette\Application\Responses\FileResponse;
 use Nette\Application\UI;
@@ -73,12 +75,15 @@ final class Grid extends UI\Control
     private bool $exportMode = false;
     private string $exportName = self::ExportName;
 
+    private GridStyleInterface $gridStyle;
+
 
     /**
      * @param ICollection<T>|OneHasMany<T> $rawData
      */
     public function __construct(
-        ICollection|OneHasMany $rawData
+        ICollection|OneHasMany $rawData,
+        ?GridStyleInterface $gridStyle = null
     ) {
         if ($rawData instanceof OneHasMany) {
             /** @var ICollection<T> $c */
@@ -90,6 +95,7 @@ final class Grid extends UI\Control
         }
         $this->paginator = new Paginator();
         $this->collection = new Collection();
+        $this->gridStyle = $gridStyle ?? new GridStyle();
     }
 
     public function handleSort(string $column): void
@@ -211,6 +217,7 @@ final class Grid extends UI\Control
     {
         $this->template->setFile($this->templateFile);
         $this->template->exportMode = $this->exportMode;
+        $this->template->gs = $this->gridStyle;
         if ($this->exportMode === true) {
             $this->template->exportName = $this->exportName;
         } else {

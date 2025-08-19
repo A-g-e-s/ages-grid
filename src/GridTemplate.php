@@ -7,6 +7,7 @@ namespace Ages\Grid;
 
 use Ages\Grid\Column\Collection;
 use Ages\Grid\Column\Column;
+use Ages\Grid\Styles\GridStyleInterface;
 use Nette\Bridges\ApplicationLatte\Template;
 use Nextras\Orm\Collection\ICollection;
 use Nextras\Orm\Entity\IEntity;
@@ -45,5 +46,6 @@ class GridTemplate extends Template
     public string $exportName;
 
     public bool $export;
+    public GridStyleInterface $gs;
 
 }
