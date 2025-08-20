@@ -61,7 +61,7 @@ class GridStyle implements GridStyleInterface
 
     public function headRow(): string
     {
-        return 'sticky top-0 bg-bg-main';
+        return 'sticky top-0';
     }
 
     public function headColumn(): string

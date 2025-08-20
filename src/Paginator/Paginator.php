@@ -148,6 +148,7 @@ class Paginator extends Control
 
     public function render(): void
     {
+        $this->template->getLatte()->setStrictParsing(false);
         $this->template->setFile($this->templateFile);
         $this->template->paginator = $this;
         $this->template->itemsOptions = $this->itemsPerPageOption;

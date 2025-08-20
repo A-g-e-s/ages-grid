@@ -215,6 +215,7 @@ final class Grid extends UI\Control
 
     public function render(): void
     {
+        $this->template->getLatte()->setStrictParsing(false);
         $this->template->setFile($this->templateFile);
         $this->template->exportMode = $this->exportMode;
         $this->template->gs = $this->gridStyle;
