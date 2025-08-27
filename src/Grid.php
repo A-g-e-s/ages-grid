@@ -491,8 +491,8 @@ final class Grid extends UI\Control
 
                     if ($column instanceof ColumnEnum) {
                         $options = array_combine(
-                            $column->getEnumClass()::values(),
-                            $column->getEnumClass()::values()
+                            array_column($column->getEnumClass()::cases(), 'value'),
+                            array_column($column->getEnumClass()::cases(), 'value'),
                         );
                         $ctrl = $form->addSelect($name, $label, $options)
                             ->setPrompt('Vyberte');

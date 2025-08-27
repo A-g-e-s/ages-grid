@@ -28,6 +28,8 @@ interface GridStyleInterface
 
     public function headColumnWithFilter(): string;
 
+    public function form(): string;
+
     public function headLink(): string;
 
     public function filterRow(): string;

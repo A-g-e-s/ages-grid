@@ -54,6 +54,11 @@ class GridStyle implements GridStyleInterface
         return 'inline-flex items-center px-3 py-1 no-underline hover:underline text-sky-800 hover:text-rose-800';
     }
 
+    public function form(): string
+    {
+        return 'overflow-x-auto';
+    }
+
     public function table(): string
     {
         return 'mt-0 w-full border-collapse table-auto';
