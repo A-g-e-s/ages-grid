@@ -61,7 +61,7 @@ class GridStyle implements GridStyleInterface
 
     public function table(): string
     {
-        return 'mt-0 w-full border-collapse table-fixed';
+        return 'mt-0 w-full border-collapse table-auto';
     }
 
     public function headRow(): string

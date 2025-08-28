@@ -6,8 +6,8 @@ declare(strict_types=1);
 namespace Ages\Grid\Column;
 
 
-use Ages\Grid\TextAlign;
 use Ages\Grid\Exception\UnexpectedUse;
+use Ages\Grid\TextAlign;
 use BackedEnum;
 use Nette\Utils\Strings;
 use Nextras\Orm\Entity\Entity;
@@ -32,7 +32,7 @@ abstract class Column
     /** @var LinkParam[] */
     private array $linkParam = [];
     private string $template = 'default.latte';
-    private string $width = 'fit-to-content';
+    private string $width = WidthClasses::Default->value;
 
     private bool $manyToMany = false;
     private string|int $manyToManyValue = '';

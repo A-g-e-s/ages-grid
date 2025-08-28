@@ -7,5 +7,5 @@ enum WidthClasses: string
 {
     case Boolean = 'w-8';
     case Default = '';
-    case Fit = 'w-fit';
+    case Fit = 'w-auto';
 }
