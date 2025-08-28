@@ -36,7 +36,7 @@ class GridStyle implements GridStyleInterface
 
     public function mainContainer(): string
     {
-        return 'text-neutral-800 overflow-x-auto';
+        return 'text-gray-900 overflow-x-auto';
     }
 
     public function captionContainer(): string
@@ -51,7 +51,7 @@ class GridStyle implements GridStyleInterface
 
     public function headerAction(): string
     {
-        return 'inline-flex items-center px-3 py-1 no-underline hover:underline text-sky-800 hover:text-rose-800';
+        return 'inline-flex items-center gap-2 px-3 py-1 no-underline hover:underline text-sky-800 hover:text-rose-800';
     }
 
     public function form(): string
@@ -61,7 +61,7 @@ class GridStyle implements GridStyleInterface
 
     public function table(): string
     {
-        return 'mt-0 w-full border-collapse table-auto';
+        return 'mt-0 w-full border-collapse table-fixed';
     }
 
     public function headRow(): string
@@ -91,7 +91,7 @@ class GridStyle implements GridStyleInterface
 
     public function filterColumn(): string
     {
-        return 'px-2 py-2 border-b-2 border-neutral-300';
+        return 'p-2 border-b-2 border-neutral-300';
     }
 
     public function filterInput(): string
@@ -111,7 +111,7 @@ class GridStyle implements GridStyleInterface
 
     public function bodyColumn(): string
     {
-        return 'px-2 py-2 border-b border-neutral-300';
+        return 'p-2 border-b border-neutral-300';
     }
 
     public function actionContainer(): string
@@ -156,7 +156,7 @@ class GridStyle implements GridStyleInterface
 
     public function summaryColumn(): string
     {
-        return 'px-2 py-2 border-t-2 text-left border-neutral-300';
+        return 'p-2 border-t-2 text-left border-neutral-300';
     }
 
     public function columnLink(): string
@@ -201,7 +201,7 @@ class GridStyle implements GridStyleInterface
 
     public function paginatorContainer(): string
     {
-        return 'mt-2 text-neutral-900';
+        return 'mt-2 text-neutral-900 flex flex-col lg:flex-row lg:justify-between items-start lg:items-stretch gap-2';
     }
 
     public function paginatorIconSize(): string
@@ -211,17 +211,17 @@ class GridStyle implements GridStyleInterface
 
     public function paginatorPagesContainer(): string
     {
-        return 'relative z-0 inline-flex -space-x-px mb-2 rounded-full bg-neutral-200';
+        return 'relative z-0 inline-flex -space-x-px rounded-full bg-neutral-200';
     }
 
     public function paginatorOptionsContainer(): string
     {
-        return 'relative z-0 md:float-right -space-x-px inline-flex mb-2 rounded-full bg-neutral-200';
+        return 'relative z-0 inline-flex -space-x-px rounded-full bg-neutral-200';
     }
 
     public function paginatorIconLink(): string
     {
-        return 'relative inline-flex items-center px-2 py-2 outline-none hover:text-rose-800';
+        return 'relative inline-flex items-center p-2 outline-none hover:text-rose-800';
     }
 
     public function paginatorLink(): string
@@ -246,7 +246,7 @@ class GridStyle implements GridStyleInterface
 
     public function paginatorSummaryIconContainer(): string
     {
-        return 'relative inline-flex items-center px-2 py-2 md:ml-4 text-neutral-700';
+        return 'relative inline-flex items-center p-2 md:ml-4 text-neutral-700';
     }
 
     public function paginatorSummary(): string
