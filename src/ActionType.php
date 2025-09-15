@@ -21,4 +21,5 @@ enum ActionType
     case Info;
     case Update;
     case Email;
+    case Close;
 }
