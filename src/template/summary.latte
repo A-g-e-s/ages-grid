@@ -2,7 +2,7 @@
 {varType Ages\Grid\Styles\GridStyleInterface $gs}
 {foreach $collection as $column}
     {varType Ages\Grid\Column\Column $column}
-    <td n:class="$gs->summaryColumn(), $column->getAlign(), $column->getClasses()">
+    <td n:class="$gs->summaryColumn(), $column->getClasses()">
         {if ($column instanceof Ages\Grid\Column\ColumnNumber) && $column->hasSummary()}{$column->summary($data)}{/if}
     </td>
 {/foreach}
