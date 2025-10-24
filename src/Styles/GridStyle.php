@@ -253,4 +253,9 @@ class GridStyle implements GridStyleInterface
     {
         return 'font-semibold pr-2';
     }
+
+    public function paginatorTotalContainer(): string
+    {
+        return '';
+    }
 }

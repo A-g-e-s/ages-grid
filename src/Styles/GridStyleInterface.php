@@ -93,6 +93,8 @@ interface GridStyleInterface
 
     public function paginatorText(): string;
 
+    public function paginatorTotalContainer(): string;
+
     public function paginatorSummaryContainer(): string;
 
     public function paginatorSummaryIconContainer(): string;
