@@ -22,4 +22,6 @@ enum ActionType
     case Update;
     case Email;
     case Close;
+    case Cart;
+    case Bulb;
 }

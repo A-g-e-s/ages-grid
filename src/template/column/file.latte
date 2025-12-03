@@ -22,7 +22,7 @@
             {/if}
             {var $params[$param->key] = $value}
         {/foreach}
-        <a href="{plink $column->getLink() (expand) $params}" n:class="$column->ajax() ? $gs->ajax() : $gs->noAjax(), $gs->fileAction()"
+        <a href="{plink $column->getLink() ...$params}" n:class="$column->ajax() ? $gs->ajax() : $gs->noAjax(), $gs->fileAction()"
                 {if !$column->history()} data-naja-history="off"{/if}>
             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" n:class="$gs->iconSize()">
                 <path stroke-linecap="round" stroke-linejoin="round"

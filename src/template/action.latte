@@ -54,7 +54,7 @@
                 <div x-show="deleting" x-transition:enter="transition ease-out duration-150" x-transition:enter-start="opacity-0 transform scale-90" x-transition:enter-end="opacity-100 transform scale-100"
                      x-transition:leave="transition ease-in duration-150"
                      x-transition:leave-start="opacity-100 transform scale-100" x-transition:leave-end="opacity-0 transform scale-90" n:class="$gs->deleteButtonsContainer()">
-                    <a href="{plink $action->getLink() (expand) $params}"
+                    <a href="{plink $action->getLink() ...$params}"
                        x-on:deleting.window="$el.disabled = true" n:class="$gs->deleteButton(), $action->isAjax() ? $gs->ajax() : $gs->noAjax()" {if !$action->isHistory()}data-naja-history="off"{/if}>
                         {include 'actionIcon.latte', type => Ages\Grid\ActionType::Delete, gs => $gs}
                     </a>
@@ -64,7 +64,7 @@
                 </div>
             </div>
         {else}
-            <a href="{plink $action->getLink() (expand) $params}" n:class="$gs->actionLink(), $action->isAjax() ? $gs->ajax() : $gs->noAjax()" {if !$action->isHistory()}data-naja-history="off"{/if}>
+            <a href="{plink $action->getLink() ...$params}" n:class="$gs->actionLink(), $action->isAjax() ? $gs->ajax() : $gs->noAjax()" {if !$action->isHistory()}data-naja-history="off"{/if}>
                 {include 'actionIcon.latte', type => $action->getType(), gs => $gs}
                 {if $action->getTitle() !== null}
                     {$action->getTitle()}
