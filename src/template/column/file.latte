@@ -12,7 +12,8 @@
             </svg>
             {$filename}
         </a>
-    {elseif $column->isLink()}
+    {elseif $column->isLink() && ($column->checkEmpty() === true && $column->getColumnValue($line) === '')}
+        {var $params = []}
         {foreach $column->getLinkParams() as $param}
             {varType Ages\Grid\Column\LinkParam $param}
             {if $param->data === true}
