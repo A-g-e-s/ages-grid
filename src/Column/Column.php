@@ -41,12 +41,13 @@ abstract class Column
 
 
     public function __construct(
-        private readonly string $name,
-        ?string $label = null,
-        TextAlign $align = TextAlign::Left,
+        private readonly string    $name,
+        ?string                    $label = null,
+        TextAlign                  $align = TextAlign::Left,
         protected readonly ?string $unit = null,
-        private readonly bool $unitFromData = false
-    ) {
+        private readonly bool      $unitFromData = false
+    )
+    {
         $this->label = ($label === null) ? $this->name : $label;
         $this->align = $align->value;
         $this->setAlphaNumericName();
@@ -315,5 +316,18 @@ abstract class Column
     public function unitFromData(): bool
     {
         return $this->unitFromData;
+    }
+
+    public function isEmptyValue(IEntity $row): bool
+    {
+        $raw = $this->getColumnRawValue($row);
+
+        if ($raw === null) {
+            return true;
+        }
+
+        if (is_string($raw)) {
+            return trim($raw) === '';
+        }
     }
 }

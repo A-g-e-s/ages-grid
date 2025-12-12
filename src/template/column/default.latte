@@ -1,7 +1,8 @@
 {varType Ages\Grid\Column\Column $column}
 {varType Nextras\Orm\Entity\IEntity $line}
 {varType Ages\Grid\Styles\GridStyleInterface $gs}
-{if $column->isLink() && ($column->checkEmpty() === true && $column->getColumnValue($line) === '')}
+
+{if $column->isLink() && $column->checkEmpty() && $column->isEmptyValue($line)}
     {var $params = []}
     {foreach $column->getLinkParams() as $param}
         {varType Ages\Grid\Column\LinkParam $param}
