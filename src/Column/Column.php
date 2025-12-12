@@ -329,5 +329,6 @@ abstract class Column
         if (is_string($raw)) {
             return trim($raw) === '';
         }
+        return false;
     }
 }
