@@ -12,7 +12,7 @@
             </svg>
             {$filename}
         </a>
-    {elseif $column->isLink() && $column->checkEmpty() && $column->isEmptyValue($line)}
+    {elseif $column->isLink() && (!$column->checkEmpty() || !$column->isEmptyValue($line))}
         {var $params = []}
         {foreach $column->getLinkParams() as $param}
             {varType Ages\Grid\Column\LinkParam $param}
