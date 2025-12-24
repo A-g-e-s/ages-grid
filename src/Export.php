@@ -55,7 +55,7 @@ class Export
         ?string $exportPath = null
 
     ) {
-        $basePath ??= __DIR__ . '/../../../www/';
+        $basePath ??= __DIR__ . '/../../../../www/';
         $this->setBasePath($basePath);
 
         $exportPath ??= $this->basePath . 'export/';
