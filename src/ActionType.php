@@ -24,4 +24,5 @@ enum ActionType
     case Close;
     case Cart;
     case Bulb;
+    case Copy;
 }
