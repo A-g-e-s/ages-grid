@@ -25,4 +25,5 @@ enum ActionType
     case Cart;
     case Bulb;
     case Copy;
+    case Truck;
 }
