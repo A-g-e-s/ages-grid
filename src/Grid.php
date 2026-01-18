@@ -83,8 +83,9 @@ final class Grid extends UI\Control
      */
     public function __construct(
         ICollection|OneHasMany $rawData,
-        ?GridStyleInterface $gridStyle = null
-    ) {
+        ?GridStyleInterface    $gridStyle = null
+    )
+    {
         if ($rawData instanceof OneHasMany) {
             /** @var ICollection<T> $c */
             $c = $rawData->toCollection();
@@ -112,10 +113,10 @@ final class Grid extends UI\Control
     public function handleExport(?string $basePath = null, ?string $exportPath = null): void
     {
         $e = new Export(
-                        $this->collection,
-                        $this->sortData(),
-                        $this->caption,
-            basePath:   $basePath,
+            $this->collection,
+            $this->sortData(),
+            $this->caption,
+            basePath: $basePath,
             exportPath: $exportPath
         );
         $name = $e->exportData();
@@ -207,7 +208,6 @@ final class Grid extends UI\Control
     public function addExport(?string $exportModeName = null): void
     {
         if ($exportModeName !== null) {
-            $this->exportMode = true;
             $this->exportName = $exportModeName;
         }
         $this->export = true;
@@ -301,7 +301,7 @@ final class Grid extends UI\Control
 
     /**
      * @param int[] $options
-     * @param int   $itemsPerPageOffset
+     * @param int $itemsPerPageOffset
      * @return self
      */
     public function setItemsPerPageOptions(array $options, int $itemsPerPageOffset = 1): self
@@ -314,12 +314,13 @@ final class Grid extends UI\Control
     /** ******************** Columns ******************** **/
 
     public function addColumnString(
-        string $name,
-        ?string $label = null,
+        string    $name,
+        ?string   $label = null,
         TextAlign $align = TextAlign::Left,
-        ?string $unit = null,
-        bool $unitFromData = false
-    ): ColumnString {
+        ?string   $unit = null,
+        bool      $unitFromData = false
+    ): ColumnString
+    {
         $label = $label ? Strings::firstUpper(Strings::lower($label)) : Strings::firstUpper(Strings::lower($name));
         if ($this->columnSort === null) {
             $this->columnSort = $name;
@@ -330,11 +331,12 @@ final class Grid extends UI\Control
     }
 
     public function addColumnDate(
-        string $name,
-        ?string $label = null,
-        DateType $dateType = DateType::Date,
+        string    $name,
+        ?string   $label = null,
+        DateType  $dateType = DateType::Date,
         TextAlign $align = TextAlign::Left,
-    ): ColumnDate {
+    ): ColumnDate
+    {
         $label = $label ? ucfirst(strtolower($label)) : ucfirst(strtolower($name));
         if ($this->columnSort === null) {
             $this->columnSort = $name;
@@ -345,12 +347,13 @@ final class Grid extends UI\Control
     }
 
     public function addColumnNumber(
-        string $name,
-        ?string $label = null,
+        string    $name,
+        ?string   $label = null,
         TextAlign $align = TextAlign::Right,
-        ?string $unit = null,
-        bool $unitFromData = false
-    ): ColumnNumber {
+        ?string   $unit = null,
+        bool      $unitFromData = false
+    ): ColumnNumber
+    {
         $label = $label ? ucfirst(strtolower($label)) : ucfirst(strtolower($name));
         if ($this->columnSort === null) {
             $this->columnSort = $name;
@@ -361,11 +364,12 @@ final class Grid extends UI\Control
     }
 
     public function addColumnBoolean(
-        string $name,
-        ?string $label = null,
+        string      $name,
+        ?string     $label = null,
         BooleanType $type = BooleanType::Default,
-        TextAlign $align = TextAlign::Left,
-    ): ColumnBoolean {
+        TextAlign   $align = TextAlign::Left,
+    ): ColumnBoolean
+    {
         $label = $label ? ucfirst(strtolower($label)) : ucfirst(strtolower($name));
         if ($this->columnSort === null) {
             $this->columnSort = $name;
@@ -376,10 +380,11 @@ final class Grid extends UI\Control
     }
 
     public function addColumnFunction(
-        string $name,
-        ?string $label = null,
+        string    $name,
+        ?string   $label = null,
         TextAlign $align = TextAlign::Left,
-    ): ColumnFunction {
+    ): ColumnFunction
+    {
         $label = $label ? ucfirst(strtolower($label)) : ucfirst(strtolower($name));
         $column = new ColumnFunction($name, $label, $align);
         $this->collection->add($column);
@@ -387,10 +392,11 @@ final class Grid extends UI\Control
     }
 
     public function addColumnCheckEmpty(
-        string $name,
-        ?string $label = null,
+        string    $name,
+        ?string   $label = null,
         TextAlign $align = TextAlign::Left,
-    ): ColumnCheckEmpty {
+    ): ColumnCheckEmpty
+    {
         $label = $label ? ucfirst(strtolower($label)) : ucfirst(strtolower($name));
         if ($this->columnSort === null) {
             $this->columnSort = $name;
@@ -401,10 +407,11 @@ final class Grid extends UI\Control
     }
 
     public function addColumnImage(
-        string $name,
-        ?string $label = null,
+        string    $name,
+        ?string   $label = null,
         ImageType $type = ImageType::Small,
-    ): ColumnImage {
+    ): ColumnImage
+    {
         $label = $label ? ucfirst(strtolower($label)) : ucfirst(strtolower($name));
         if ($this->columnSort === null) {
             $this->columnSort = $name;
@@ -415,9 +422,10 @@ final class Grid extends UI\Control
     }
 
     public function addColumnFile(
-        string $name,
+        string  $name,
         ?string $label = null,
-    ): ColumnFile {
+    ): ColumnFile
+    {
         $label = $label ? Strings::firstUpper(Strings::lower($label)) : Strings::firstUpper(Strings::lower($name));
         if ($this->columnSort === null) {
             $this->columnSort = $name;
@@ -428,11 +436,12 @@ final class Grid extends UI\Control
     }
 
     public function addColumnEnum(
-        string $name,
-        string $label,
-        string $enumClass,
+        string    $name,
+        string    $label,
+        string    $enumClass,
         TextAlign $align = TextAlign::Left,
-    ): ColumnEnum {
+    ): ColumnEnum
+    {
         $label = Strings::firstUpper(Strings::lower($label));
         if ($this->columnSort === null) {
             $this->columnSort = $name;
