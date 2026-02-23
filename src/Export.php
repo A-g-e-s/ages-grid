@@ -82,9 +82,9 @@ class Export
         $s = $ss->getActiveSheet();
         $s->setTitle('Data');
 
-        $lastCol = $this->setHeader($s);
+        $result = $this->setHeader($s);
         $lastLine = $this->setData($s);
-        $this->setStyles($s, $lastCol, $lastLine);
+        $this->setStyles($s, $result['lastCol'], $lastLine, $result['imageColumns']);
         $writer = new Xlsx($ss);
         $name = sprintf('%s.xlsx', Strings::webalize($title));
         $writer->save($this->exportPath . $name);
@@ -115,15 +115,18 @@ class Export
         return $this->exportPath;
     }
 
-    private function setHeader(Worksheet $sheet): int
+    private function setHeader(Worksheet $sheet): array
     {
         $col = $this->columnStart;
+        $imageColumns = [];
+
         foreach ($this->columnCollection as $column) {
             $cord = [$col, $this->lineStart];
             $sheet->setCellValue($cord, $column->getLabel());
             $sheet->getStyle(array_merge($cord, $cord))->getAlignment()->setHorizontal($this->getAlignment($column->getAlign()));
             if ($column instanceof ColumnImage) {
                 $sheet->getColumnDimensionByColumn($col)->setWidth(19);
+                $imageColumns[] = $col;
             }
             $col++;
             if ($column->hasUnit()) {
@@ -133,7 +136,8 @@ class Export
                 $col++;
             }
         }
-        return --$col;
+
+        return ['lastCol' => --$col, 'imageColumns' => $imageColumns];
     }
 
     private function setData(Worksheet $sheet): int
@@ -195,12 +199,18 @@ class Export
         return --$line;
     }
 
-    private function setStyles(Worksheet $sheet, int $columnEnd, int $lastLine): void
+    private function setStyles(Worksheet $sheet, int $columnEnd, int $lastLine, array $imageColumns = []): void
     {
         $sheet->getStyle([$this->columnStart, $this->lineStart, $columnEnd, $this->lineStart])->getFont()->setBold(true);
         $sheet->getStyle([$this->columnStart, $this->lineStart, $columnEnd, $lastLine])->getFont()->setColor(new Color($this->fontColor));
         $sheet->getStyle([$this->columnStart, $this->lineStart, $columnEnd, $lastLine])->getBorders()->getAllBorders()->setBorderStyle(Border::BORDER_THIN)->setColor(new Color($this->borderColor));
         $sheet->getStyle([$this->columnStart, $this->lineStart, $columnEnd, $this->lineStart])->getBorders()->getBottom()->setBorderStyle(Border::BORDER_THICK);
+
+        for ($col = $this->columnStart; $col <= $columnEnd; $col++) {
+            if (!in_array($col, $imageColumns, true)) {
+                $sheet->getColumnDimensionByColumn($col)->setAutoSize(true);
+            }
+        }
 
         $sheet->setSelectedCell('A1');
     }
