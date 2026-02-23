@@ -54,7 +54,7 @@ final class Grid extends UI\Control
     /**
      * @var array|callable[]
      */
-    public $onExport = [];
+    public array $onExport = [];
     protected ?string $caption = null;
     /** @var Collection<Column> */
     protected Collection $collection;
@@ -115,7 +115,7 @@ final class Grid extends UI\Control
         $e = new Export(
             $this->collection,
             $this->sortData(),
-            $this->caption,
+            $this->exportName,
             basePath: $basePath,
             exportPath: $exportPath
         );

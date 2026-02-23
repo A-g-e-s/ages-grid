@@ -33,28 +33,29 @@ class Export
     private string $exportPath;
 
     /**
-     * @param Collection<Column>   $columnCollection
+     * @param Collection<Column> $columnCollection
      * @param ICollection<IEntity> $dataCollection
-     * @param string|null          $caption
-     * @param int                  $columnStart
-     * @param int                  $lineStart
-     * @param string               $fontColor
-     * @param string               $borderColor
-     * @param string|null          $basePath
-     * @param string|null          $exportPath
+     * @param string $exportName
+     * @param int $columnStart
+     * @param int $lineStart
+     * @param string $fontColor
+     * @param string $borderColor
+     * @param string|null $basePath
+     * @param string|null $exportPath
      */
     public function __construct(
-        private readonly Collection $columnCollection,
+        private readonly Collection  $columnCollection,
         private readonly ICollection $dataCollection,
-        private readonly ?string $caption,
-        private readonly int $columnStart = 1,
-        private readonly int $lineStart = 1,
-        private readonly string $fontColor = '292b2f',
-        private readonly string $borderColor = '9ca3af',
-        ?string $basePath = null,
-        ?string $exportPath = null
+        private readonly string      $exportName,
+        private readonly int         $columnStart = 1,
+        private readonly int         $lineStart = 1,
+        private readonly string      $fontColor = '292b2f',
+        private readonly string      $borderColor = '9ca3af',
+        ?string                      $basePath = null,
+        ?string                      $exportPath = null
 
-    ) {
+    )
+    {
         $basePath ??= __DIR__ . '/../../../../www/';
         $this->setBasePath($basePath);
 
@@ -71,7 +72,7 @@ class Export
 
         $ss = new Spreadsheet();
         $date = (new \DateTimeImmutable())->format('d_m_Y__G_i_s');
-        $title = $this->caption ?? 'Export';
+        $title = $this->exportName ?? 'Export';
         $title .= sprintf('_%s', $date);
 
         $ss->getProperties()
