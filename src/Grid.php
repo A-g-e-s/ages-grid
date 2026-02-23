@@ -115,7 +115,7 @@ final class Grid extends UI\Control
         $e = new Export(
             $this->collection,
             $this->sortData(),
-            $this->caption,
+            $this->caption, //Return to caption
             basePath: $basePath,
             exportPath: $exportPath
         );
