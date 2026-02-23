@@ -33,6 +33,7 @@ class Export
     private string $exportPath;
 
     /**
+     * BaseExport
      * @param Collection<Column> $columnCollection
      * @param ICollection<IEntity> $dataCollection
      * @param string $exportName
