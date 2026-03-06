@@ -410,13 +410,14 @@ final class Grid extends UI\Control
         string    $name,
         ?string   $label = null,
         ImageType $type = ImageType::Small,
+        bool      $isRelative = true,
     ): ColumnImage
     {
         $label = $label ? ucfirst(strtolower($label)) : ucfirst(strtolower($name));
         if ($this->columnSort === null) {
             $this->columnSort = $name;
         }
-        $column = new ColumnImage($name, $label, $type);
+        $column = new ColumnImage($name, $label, $type, $isRelative);
         $this->collection->add($column);
         return $column;
     }
