@@ -38,6 +38,8 @@ interface GridStyleInterface
 
     public function filterInput(): string;
 
+    public function filterDateInput(): string;
+
     public function bodyRow(): string;
 
     public function bodyRowHover(): string;

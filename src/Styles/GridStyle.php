@@ -96,6 +96,11 @@ class GridStyle implements GridStyleInterface
         return 'font-normal w-full shadow border rounded-lg border-gray-400 focus:outline-none focus:shadow-outline focus:border-indigo-400 focus:ring-2 py-1 px-3 mb-2 ring-indigo-400';
     }
 
+    public function filterDateInput(): string
+    {
+        return 'font-normal w-full border rounded border-gray-400 focus:outline-none focus:border-indigo-400 focus:ring-1 py-0.5 px-1 text-xs ring-indigo-400';
+    }
+
     public function bodyRow(): string
     {
         return 'even:text-zinc-600';

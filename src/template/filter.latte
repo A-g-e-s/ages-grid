@@ -7,9 +7,10 @@
             {if $column instanceof Ages\Grid\Column\ColumnDate && $column->isDateRangeFilter()}
                 {var $fromName = $column->getAlphaNumericName() . '_from'}
                 {var $toName = $column->getAlphaNumericName() . '_to'}
-                <div class="flex flex-col gap-0.5">
-                    {input $fromName, class => $gs->filterInput(), placeholder => 'Od', title => 'Od'}
-                    {input $toName, class => $gs->filterInput(), placeholder => 'Do', title => 'Do'}
+                <div class="flex flex-row gap-1 items-center">
+                    {input $fromName, class => $gs->filterDateInput(), title => 'Od', onchange => 'this.form.requestSubmit()'}
+                    <span class="text-gray-400 text-xs shrink-0">–</span>
+                    {input $toName, class => $gs->filterDateInput(), title => 'Do', onchange => 'this.form.requestSubmit()'}
                 </div>
             {elseif $column instanceof Ages\Grid\Column\ColumnBoolean || $column instanceof Ages\Grid\Column\ColumnEnum}
                 {input $column->getAlphaNumericName(), class => $gs->filterInput(), onchange => 'this.form.requestSubmit()'}
