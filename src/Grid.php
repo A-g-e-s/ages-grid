@@ -149,8 +149,33 @@ final class Grid extends UI\Control
                 continue;
             }
 
+            if (str_ends_with($key, '_from')) {
+                $baseKey = substr($key, 0, -5);
+                try {
+                    $date = new \DateTimeImmutable((string)$rawValue);
+                    $data = $data->findBy([$baseKey . '>=' => $date]);
+                } catch (\Exception) {
+                }
+                continue;
+            }
+
+            if (str_ends_with($key, '_to')) {
+                $baseKey = substr($key, 0, -3);
+                try {
+                    $date = (new \DateTimeImmutable((string)$rawValue))->setTime(23, 59, 59);
+                    $data = $data->findBy([$baseKey . '<=' => $date]);
+                } catch (\Exception) {
+                }
+                continue;
+            }
+
             $value = (string)$rawValue;
             $column = $this->collection->getColumnByAlphanumericName($key);
+
+            if ($column instanceof ColumnBoolean) {
+                $data = $data->findBy([$key => $value === '1']);
+                continue;
+            }
 
             if ($column instanceof ColumnEnum) {
                 try {
@@ -278,6 +303,17 @@ final class Grid extends UI\Control
         $this->appliedFilter = [];
         foreach ($values as $key => $value) {
             if (!self::isEmpty($value)) {
+                foreach (['_from', '_to'] as $suffix) {
+                    if (str_ends_with($key, $suffix)) {
+                        $baseKey = substr($key, 0, -strlen($suffix));
+                        $column = $this->collection->getColumnByAlphanumericName($baseKey);
+                        if ($column === null) {
+                            throw new InvalidArgument('Column was not found.');
+                        }
+                        $this->appliedFilter[$column->getName() . $suffix] = $value;
+                        continue 2;
+                    }
+                }
                 $column = $this->collection->getColumnByAlphanumericName($key);
                 if ($column === null) {
                     throw new InvalidArgument('Column was not found.');
@@ -499,7 +535,26 @@ final class Grid extends UI\Control
                     $name = $column->getAlphaNumericName();
                     $label = $column->getLabel();
 
-                    if ($column instanceof ColumnEnum) {
+                    if ($column instanceof ColumnDate && $column->isDateRangeFilter()) {
+                        $fromName = $column->getAlphaNumericName() . '_from';
+                        $toName = $column->getAlphaNumericName() . '_to';
+                        $fromDefault = $this->appliedFilter[$column->getName() . '_from'] ?? null;
+                        $toDefault = $this->appliedFilter[$column->getName() . '_to'] ?? null;
+
+                        $fromCtrl = $form->addText($fromName, $label)->setHtmlType('date');
+                        $toCtrl = $form->addText($toName, $label)->setHtmlType('date');
+
+                        if ($fromDefault !== null) {
+                            $fromCtrl->setDefaultValue($fromDefault);
+                        }
+                        if ($toDefault !== null) {
+                            $toCtrl->setDefaultValue($toDefault);
+                        }
+                        continue;
+                    } elseif ($column instanceof ColumnBoolean) {
+                        $ctrl = $form->addSelect($name, $label, ['1' => 'Ano', '0' => 'Ne'])
+                            ->setPrompt('Vše');
+                    } elseif ($column instanceof ColumnEnum) {
                         $options = array_combine(
                             array_column($column->getEnumClass()::cases(), 'value'),
                             array_column($column->getEnumClass()::cases(), 'value'),
