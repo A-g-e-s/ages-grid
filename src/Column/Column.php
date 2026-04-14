@@ -38,6 +38,7 @@ abstract class Column
     private string|int $manyToManyValue = '';
     private string|int $manyToManyKey = '';
     private string|int $manyToManyName = '';
+    private ?string $prefix = null;
 
 
     public function __construct(
@@ -45,7 +46,7 @@ abstract class Column
         ?string                    $label = null,
         TextAlign                  $align = TextAlign::Left,
         protected readonly ?string $unit = null,
-        private readonly bool      $unitFromData = false
+        private readonly bool      $unitFromData = false,
     )
     {
         $this->label = ($label === null) ? $this->name : $label;
@@ -94,6 +95,10 @@ abstract class Column
                 throw new UnexpectedUse(sprintf('Column %s has to be set as ColumnDate', $this->name));
             }
         }
+        if ($this->prefix !== null) {
+            $value = sprintf('%s%s', $this->prefix, $value);
+        }
+
         $unit = $this->getUnit($row);
         if (empty($unit)) {
             return strval($value);
@@ -212,6 +217,12 @@ abstract class Column
         $this->manyToManyKey = $key;
         $this->manyToManyValue = $value;
         $this->manyToManyName = $name;
+        return $this;
+    }
+
+    public function setPrefix(string $prefix): static
+    {
+        $this->prefix = $prefix;
         return $this;
     }
 
