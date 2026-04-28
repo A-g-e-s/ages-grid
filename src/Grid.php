@@ -70,11 +70,7 @@ final class Grid extends UI\Control
     /** @var HeaderAction[] */
     private array $headerActions = [];
     private bool $actionColumn = false;
-    private bool $hoverable = false {
-        set {
-            $this->hoverable = true;
-        }
-    }
+    private bool $hoverable = false;
     private bool $export = false;
     private bool $exportMode = false;
     private string $exportName = self::ExportName;
@@ -291,6 +287,11 @@ final class Grid extends UI\Control
     public function reverseSort(): void
     {
         $this->sortOrder = ICollection::DESC_NULLS_FIRST;
+    }
+
+    public function setHoverable(): void
+    {
+        $this->hoverable = true;
     }
 
     public function setExportMode(string $exportName = self::ExportName, bool $exportMode = true): void

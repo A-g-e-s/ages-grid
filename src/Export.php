@@ -30,14 +30,7 @@ class Export
 {
 
     private string $basePath;
-    public string $exportPath {
-        get {
-            return $this->exportPath;
-        }
-        set {
-            $this->exportPath = rtrim($value, DIRECTORY_SEPARATOR) . DIRECTORY_SEPARATOR;
-        }
-    }
+    public string $exportPath;
 
     /**
      * BaseExport
@@ -68,7 +61,7 @@ class Export
         $this->setBasePath($basePath);
 
         $exportPath ??= $this->basePath . 'export/';
-        $this->exportPath = $exportPath;
+        $this->exportPath = rtrim($exportPath, DIRECTORY_SEPARATOR) . DIRECTORY_SEPARATOR;
     }
 
     public function exportData(): string
