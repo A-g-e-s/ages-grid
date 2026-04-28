@@ -13,7 +13,7 @@ class ColumnFunction extends Column
     /**
      * @var FunctionParam[]
      */
-    private array $functionParams;
+    private array $functionParams = [];
 
     /**
      * @param string      $function

@@ -148,6 +148,7 @@ class ColumnNumber extends Column
             if ($property instanceof \DateTimeImmutable) {
                 throw new InvalidArgument('Column number should be used only for numeric data.');
             }
+            $numbers[] = $property;
         }
         $value = floatval(max($numbers));
         return sprintf('↑ %s', $this->formatValue($value));

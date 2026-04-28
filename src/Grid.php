@@ -35,13 +35,13 @@ use Nextras\Orm\Entity\IEntity;
 use Nextras\Orm\Relationships\OneHasMany;
 
 /**
- * @property GridTemplate $template
- * @method onExport(string $name)
  * @template T of IEntity
+ * @property GridTemplate<T> $template
+ * @method onExport(string $name)
  */
 final class Grid extends UI\Control
 {
-    const ExportName = 'Export';
+    const string ExportName = 'Export';
     #[Persistent]
     public int $page = 1;
     #[Persistent]
@@ -70,10 +70,16 @@ final class Grid extends UI\Control
     /** @var HeaderAction[] */
     private array $headerActions = [];
     private bool $actionColumn = false;
-    private bool $hoverable = false;
+    private bool $hoverable = false {
+        set {
+            $this->hoverable = true;
+        }
+    }
     private bool $export = false;
     private bool $exportMode = false;
     private string $exportName = self::ExportName;
+    private ?string $exportBasePath = null;
+    private ?string $exportFilePath = null;
 
     private GridStyleInterface $gridStyle;
 
@@ -110,18 +116,24 @@ final class Grid extends UI\Control
         $this->redrawControl('grid');
     }
 
-    public function handleExport(?string $basePath = null, ?string $exportPath = null): void
+    public function handleExport(): void
     {
         $e = new Export(
             $this->collection,
             $this->sortData(),
             $this->caption ?? $this->exportName,
-            basePath: $basePath,
-            exportPath: $exportPath
+            basePath: $this->exportBasePath,
+            exportPath: $this->exportFilePath
         );
         $name = $e->exportData();
         $this->onExport($name);
-        $this->getPresenter()->sendResponse(new FileResponse($e->getExportPath() . $name));
+        $this->getPresenter()->sendResponse(new FileResponse($e->exportPath . $name));
+    }
+
+    public function setExportPaths(?string $basePath = null, ?string $exportPath = null): void
+    {
+        $this->exportBasePath = $basePath;
+        $this->exportFilePath = $exportPath;
     }
 
     /**
@@ -281,12 +293,6 @@ final class Grid extends UI\Control
         $this->sortOrder = ICollection::DESC_NULLS_FIRST;
     }
 
-    /** ******************** Render ******************** **/
-    public function setHoverable(): void
-    {
-        $this->hoverable = true;
-    }
-
     public function setExportMode(string $exportName = self::ExportName, bool $exportMode = true): void
     {
         $this->exportMode = $exportMode;
@@ -295,9 +301,7 @@ final class Grid extends UI\Control
 
     public function processFilterForm(UI\Form $form): void
     {
-        if (isset($this->paginator)) {
-            $this->page = 1;
-        }
+        $this->page = 1;
         $values = $form->getValues(ArrayHash::class);
         assert($values instanceof ArrayHash);
         $this->appliedFilter = [];

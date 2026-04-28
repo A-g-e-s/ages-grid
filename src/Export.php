@@ -30,7 +30,14 @@ class Export
 {
 
     private string $basePath;
-    private string $exportPath;
+    public string $exportPath {
+        get {
+            return $this->exportPath;
+        }
+        set {
+            $this->exportPath = rtrim($value, DIRECTORY_SEPARATOR) . DIRECTORY_SEPARATOR;
+        }
+    }
 
     /**
      * BaseExport
@@ -61,7 +68,7 @@ class Export
         $this->setBasePath($basePath);
 
         $exportPath ??= $this->basePath . 'export/';
-        $this->setExportPath($exportPath);
+        $this->exportPath = $exportPath;
     }
 
     public function exportData(): string
@@ -72,8 +79,8 @@ class Export
 
 
         $ss = new Spreadsheet();
-        $date = (new \DateTimeImmutable())->format('d_m_Y__G_i_s');
-        $title = $this->exportName ?? 'Export';
+        $date = new \DateTimeImmutable()->format('d_m_Y__G_i_s');
+        $title = $this->exportName;
         $title .= sprintf('_%s', $date);
 
         $ss->getProperties()
@@ -93,11 +100,6 @@ class Export
         return $name;
     }
 
-    public function setExportPath(string $dir): void
-    {
-        $this->exportPath = rtrim($dir, DIRECTORY_SEPARATOR) . DIRECTORY_SEPARATOR;
-    }
-
     private function setBasePath(string $dir): void
     {
         $this->basePath = rtrim($dir, DIRECTORY_SEPARATOR) . DIRECTORY_SEPARATOR;
@@ -110,11 +112,6 @@ class Export
         if (str_ends_with($this->exportPath, $suffix)) {
             $this->exportPath = $this->basePath . $suffix;
         }
-    }
-
-    public function getExportPath(): string
-    {
-        return $this->exportPath;
     }
 
     private function setHeader(Worksheet $sheet): array

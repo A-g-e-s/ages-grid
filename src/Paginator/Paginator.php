@@ -12,6 +12,7 @@ use Ages\Grid\Grid;
 use Ages\Grid\Styles\GridStyleInterface;
 use Nette\Application\Attributes\Persistent;
 use Nette\Application\UI\Control;
+use Nextras\Orm\Entity\IEntity;
 
 /**
  * @property PaginatorTemplate $template
@@ -68,6 +69,7 @@ class Paginator extends Control
         if (!$grid instanceof Grid) {
             throw new UnexpectedUse();
         }
+        /** @var Grid<IEntity> $grid */
         $grid->redrawControl('grid');
         $this->redrawControl('paginator');
     }
