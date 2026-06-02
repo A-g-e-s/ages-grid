@@ -61,6 +61,11 @@ class Collection implements IteratorAggregate, Countable
         return null;
     }
 
+    public function getColumnByName(string $name): ?Column
+    {
+        return $this->data[$name] ?? null;
+    }
+
     /**
      * public function get(string $key): Column
      * {

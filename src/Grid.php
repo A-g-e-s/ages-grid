@@ -178,7 +178,7 @@ final class Grid extends UI\Control
             }
 
             $value = (string)$rawValue;
-            $column = $this->collection->getColumnByAlphanumericName($key);
+            $column = $this->collection->getColumnByName($key);
 
             if ($column instanceof ColumnBoolean) {
                 $data = $data->findBy([$key => $value === '1']);
