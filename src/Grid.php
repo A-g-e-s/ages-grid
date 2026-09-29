@@ -144,6 +144,17 @@ final class Grid extends UI\Control
         return $data;
     }
 
+    /**
+     * Data po aplikaci filtrů z gridu (bez řazení a stránkování) – např. pro vlastní export.
+     * Sloupce musí být přidané dřív, než se metoda zavolá (filtr podle nich rozlišuje typ).
+     *
+     * @return ICollection<T>
+     */
+    public function getFilteredData(): ICollection
+    {
+        return $this->filterData();
+    }
+
     /** ******************** Internal ******************** **/
     /**
      * @return ICollection<T>
