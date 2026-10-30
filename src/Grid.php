@@ -16,6 +16,7 @@ use Ages\Grid\Column\ColumnFile;
 use Ages\Grid\Column\ColumnFunction;
 use Ages\Grid\Column\ColumnImage;
 use Ages\Grid\Column\ColumnNumber;
+use Ages\Grid\Column\ColumnProgress;
 use Ages\Grid\Column\ColumnString;
 use Ages\Grid\Column\DateType;
 use Ages\Grid\Column\ImageType;
@@ -454,6 +455,19 @@ final class Grid extends UI\Control
             $this->columnSort = $name;
         }
         $column = new ColumnCheckEmpty($name, $label, $align);
+        $this->collection->add($column);
+        return $column;
+    }
+
+    /** Progress bar – hodnota sloupce v procentech (0–100), null = bez baru. */
+    public function addColumnProgress(
+        string    $name,
+        ?string   $label = null,
+        TextAlign $align = TextAlign::Left,
+    ): ColumnProgress
+    {
+        $label = $label ? Strings::firstUpper(Strings::lower($label)) : Strings::firstUpper(Strings::lower($name));
+        $column = new ColumnProgress($name, $label, $align);
         $this->collection->add($column);
         return $column;
     }

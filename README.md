@@ -206,6 +206,15 @@ Zobrazí ikonu přítomnosti/nepřítomnosti hodnoty místo samotné hodnoty.
 $grid->addColumnCheckEmpty(string $name, ?string $label, TextAlign $align): ColumnCheckEmpty
 ```
 
+### `addColumnProgress`
+
+Progress bar z hodnoty v procentech (0–100, mimo rozsah se ořízne). Prázdná hodnota (`null`) se nevykreslí. Barvy jsou Tailwind třídy – výchozí `bg-sky-500`, po dosažení 100 % `bg-emerald-500`.
+
+```php
+$grid->addColumnProgress('progressPercent', 'Průběh')
+    ->setBarClass('bg-amber-500', 'bg-emerald-600'); // rozpracováno, hotovo
+```
+
 ---
 
 ## Akce na řádcích

@@ -1,0 +1,12 @@
+{varType Ages\Grid\Column\ColumnProgress $column}
+{varType Nextras\Orm\Entity\IEntity $line}
+{varType Ages\Grid\Styles\GridStyleInterface $gs}
+{var $percent = $column->getPercent($line)}
+{if $percent !== null}
+    <span class="flex min-w-24 items-center gap-2" title="{$percent|number:1, ',', ' '} %">
+        <span class="h-2 flex-1 overflow-hidden rounded-full bg-gray-200">
+            <span n:class="'block h-full rounded-full', $column->getBarClass($percent)" style="width: {$percent|number:1, '.', ''|noescape}%"></span>
+        </span>
+        <span class="w-10 text-right text-xs tabular-nums">{$percent|number:0, ',', ' '} %</span>
+    </span>
+{/if}
