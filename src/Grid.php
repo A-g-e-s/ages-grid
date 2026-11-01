@@ -285,7 +285,7 @@ final class Grid extends UI\Control
     private function getData(): ICollection
     {
         $data = $this->sortData();
-        $this->paginator->setItemCount($data->count());
+        $this->paginator->setItemCount($data->countStored());
         $this->paginator->setItemsPerPage($this->paginator->getItemsPerPage());
         return $data->limitBy($this->paginator->getItemsPerPage(), $this->paginator->getOffset());
     }
